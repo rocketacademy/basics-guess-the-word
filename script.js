@@ -1,9 +1,12 @@
+// string to store user's name
+var username = '';
+
 // declare and initialise the secret word
 var secretWord = ['p', 'i', 'z', 'z', 'a'];
 
 var secretWordLength = secretWord.length;
 // make a copy of secret word for use in hard mode
-var copyOfSecretWord = ['p', 'i', 'z', 'z', 'a'];
+var copyOfSecretWord = secretWord.slice();
 
 // array to store guessed letters
 var guessedLetters = [];
@@ -19,12 +22,18 @@ var completedFigure = ['(', '凸', 'ಠ', '益', 'ಠ', ')', '凸'];
 
 var figure = '';
 var numOfGuessesLeft = 7;
-var mode = 'choosing game difficulty';
+var mode = 'enter username';
 var myOutputValue = '';
 
 // play the game
 var main = function (input) {
-  if (mode == 'choosing game difficulty') {
+  console.log('starting mode: ' + mode);
+  // run the program according to the mode
+  if (mode == 'enter username') {
+    username = input;
+    mode = 'choosing game difficulty';
+    myOutputValue = 'Hello ' + username + '!<br> Please key in \'easy\' or \'hard\' difficulty!';
+  } else if (mode == 'choosing game difficulty') {
     if (input == 'hard' || input == 'easy') {
       mode = input;
       myOutputValue = 'You have chosen ' + mode + ' mode.<br>Please key in a letter to start guessing the word.';
@@ -56,7 +65,7 @@ var main = function (input) {
         }
       }
       index += 1;
-      console.log('is input == currentLetter: ' + (input == currentLetter));
+      console.log('is input == current letter being checked: ' + (input == currentLetter));
     }
     console.log('copy of secret word: ' + copyOfSecretWord);
     console.log('secret word is: ' + secretWord);
@@ -82,14 +91,15 @@ var main = function (input) {
         answer += secretWord[i];
       }
 
-      return 'You have guessed the word!<br>The word is ' + answer + '.';
+      return username + ', you have guessed the word!<br>The word is ' + answer + '.';
     }
 
     // stops the game if the user has formed the figure aka used all 7 wrong guesses
     if (numOfGuessesLeft == 0) {
-      return figure + '<br>You lost since you have used up all 7 wrong guesses 🙁.<br>Please refresh the page to try again.';
+      return figure + '<br>' + username + ', you have lost since you have used up all 7 wrong guesses 🙁.<br>Please refresh the page to try again.';
     }
   }
 
+  console.log('ending mode: ' + mode);
   return myOutputValue;
 };
