@@ -40,17 +40,21 @@ var checkUserGuess = function (inputCharGuess) {
   var bFound = false;
   var charIndex = 0;
   for (var char of secretCode) { // looping through the hard coded secret code array
+    console.log('current char Index: ', charIndex);
+    console.log('current character: ', char);
     if (char == inputCharGuess) { // checks each caracter from the code is same as player guess
       bFound = true; // return true if it is find
       charIndex += 1;
+      break;
     }
     charIndex += 1;
   }
   // returns false if the character is not found in the looping
-  charIndex = -1;
+  charIndex = (bFound) ? (charIndex - 1) : -1;
   return { isCharFound: bFound, indexOfChar: charIndex };
 };
 
+// Function to play the basic version of the game
 var playSimpleGame = function (inputCharGuess) {
   var outputValue = '';
   // If user has exceed the number of guesses allowed, return the error message.
@@ -68,6 +72,8 @@ var playSimpleGame = function (inputCharGuess) {
     if (bCharFound) {
       correctlyGuessedLetters.push(inputCharGuess);
       outputValue = 'Your guess is correct. ';
+      outputValue += '<br/>The character you guessed now is: \'' + inputCharGuess
+                  + '\', which occurs at the position ' + returnCheck.indexOfChar + ' in the secret word.';
       // check whether the user has guessed the word completely
       if (correctlyGuessedLetters.length == secretCode.length) {
         outputValue += '<br/>You Win!!!. Game completed.<br/>';
@@ -79,6 +85,7 @@ var playSimpleGame = function (inputCharGuess) {
       outputValue = 'Your guess is wrong. ' + wrongGuessResult.join('');
     }
   }
+  outputValue += '<br/> Secret word is ' + secretCode.length + ' letter long.';
   outputValue += '<br/>Total number of guesses you made: ' + (wrongGuessResult.length + correctlyGuessedLetters.length);
   outputValue += '<br/>Number of correct guesses made: ' + correctlyGuessedLetters.length
            + ' . Correct letters until now: ' + correctlyGuessedLetters.join('');
