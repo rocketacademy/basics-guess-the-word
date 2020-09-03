@@ -8,7 +8,18 @@ The player can only guess wrong 7 times before the game ends.
 (the number of characters in the figure)
 */
 
-var secretCode = ['g', 'u', 'e', 's', 's']; // Secret Code to be compared
+// Variable to store a list of secret words
+var secretWordList = [['g', 'u', 'e', 's', 's'],
+  ['s', 't', 'o', 'r', 'e'],
+  ['c', 'a', 't'],
+  ['p', 'l', 'a', 'y'],
+  ['w', 'o', 'r', 'd'],
+  ['t', 'i', 'p', 's'],
+  ['k', 'i', 't', 't', 'y'],
+  ['t', 'r', 'e', 'a', 't'],
+  ['e', 'g', 'g', 's'],
+  ['t', 'h', 'r', 'e', 'e']];
+var secretCode = []; // Secret Code to be compared
 // Array to store the letters correctly guessed by the player
 var correctlyGuessedLetters = [];
 // Array to store the pattern for wrong guess
@@ -171,6 +182,13 @@ var findNextOccurance = function (inputCharGuess, searchStartIndex) {
 // then the game fills in both 's'.
 var playEasyMode = function (inputCharGuess) {
   var bReturn = false;
+  // Check whether it's already guessed correct letter
+  var currentIndexArray = correctGuessCharIndexPairs[inputCharGuess];
+  // find the index from which searching should start.
+  var bIsExsiting = !(currentIndexArray == null);
+  if(bIsExsiting) {
+    return true;
+  }
   // find all the indeices at which the input character occures
   var charIndexArray = findAllOccurances(inputCharGuess);
   if(charIndexArray.length != 0) {
@@ -264,6 +282,14 @@ var printChooseModeMessage = function () {
   return outputValue;
 };
 
+// Function to choose a random word from the list as secret word for the current game
+var chooseSecretWordForGame = function () {
+  var maxCount = secretWordList.length;
+  var randomNumber = Math.random() * maxCount;
+  var index = Math.floor(randomNumber);
+  secretCode = secretWordList[index];
+};
+
 var main = function (input) {
   var myOutputValue = '';
   // myOutputValue = playSimpleGame(input);
@@ -278,12 +304,15 @@ var main = function (input) {
   }
   // Prompting the player to input the mode of game they want to play
   if(gameMode.length == 0) {
+    chooseSecretWordForGame();
     if (chooseMode(input)) {
       return 'Start entering your guesses!!';
     } else{
       return printChooseModeMessage();
     }
   }
+
+  console.log('Secret word chosen: ', secretCode);
   myOutputValue = playGameWithMode(input);
 
   return myOutputValue;
