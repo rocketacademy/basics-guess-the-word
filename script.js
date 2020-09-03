@@ -19,20 +19,24 @@ var guessedWordArray = Array(chosenSecretWordArray.length).fill('_');
 var losingFigure = '(凸ಠ益ಠ)凸';
 var numWrongGuesses = 0;
 
+// User wins if there are no more underscores in guessedWordArray
 var userHasWon = function () {
   return !guessedWordArray.includes('_');
 };
 
+// User loses if there are as many wrong guesses as there are in the losing figure
 var userHasLost = function () {
   return numWrongGuesses >= losingFigure.length;
 };
 
+// Get a string representation of the partially guessed word so far
 var getGuessedWord = function () {
   // Convert array to string using join method.
   // https://www.w3schools.com/JSREF/jsref_join.asp
   return guessedWordArray.join(' ');
 };
 
+// Default output shows guessed word so far, num guesses remaining, and partial losing figure
 var getDefaultOutput = function () {
   var numGuessesRemaining = losingFigure.length - numWrongGuesses;
   // Show only numWrongGuesses letters in losingFigure by using JS's substring method
@@ -44,12 +48,12 @@ var getDefaultOutput = function () {
 };
 
 var main = function (input) {
-  // If the user has won or has no more guesses, let them know to refresh to play again.
+  // If the user has won or lost, let them know to refresh to play again.
   if (userHasWon() || userHasLost()) {
     return `${getDefaultOutput()} <br> Please refresh to play again.`;
   }
 
-  // If input is not a single letter, let the user know what to do
+  // If input is not a single letter, let the user know what to do.
   if (input.length != 1) {
     return `This is a game of Guess The Word. Please guess 1 letter at a time. <br>
     ${getDefaultOutput()}`;
@@ -71,8 +75,8 @@ var main = function (input) {
     }
 
     // Let the user know they guessed correctly.
-    // If there are no more underscores in the guessedWordArray, the user has won!
     var defaultCorrectGuessOutput = `You guessed right! <br> ${getDefaultOutput()}`;
+    // If the user has won, also let them know they won and to refresh to play again.
     if (userHasWon()) {
       return `${defaultCorrectGuessOutput} <br>
       Congratulations, you win! <br>
@@ -84,7 +88,9 @@ var main = function (input) {
   // If the secret word array does not include the input letter, increment numWrongGuesses.
   if (!chosenSecretWordArray.includes(input)) {
     numWrongGuesses += 1;
+    // Let the user know they guessed wrong.
     var defaultWrongGuessOutput = `You guessed wrong. <br> ${getDefaultOutput()}`;
+    // If the user has lost, also let them know they lost and to refresh to play again.
     if (userHasLost()) {
       return `${defaultWrongGuessOutput} <br> Please refresh to play again.`;
     }
