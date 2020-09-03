@@ -19,13 +19,13 @@ var guessedWordArray = Array(chosenSecretWordArray.length).fill('_');
 var losingFigure = '(凸ಠ益ಠ)凸';
 var numWrongGuesses = 0;
 
-// User wins if there are no more underscores in guessedWordArray
 var userHasWon = function () {
+  // User wins if there are no more underscores in guessedWordArray
   return !guessedWordArray.includes('_');
 };
 
-// User loses if there are as many wrong guesses as there are in the losing figure
 var userHasLost = function () {
+  // User loses if there are as many wrong guesses as there are in the losing figure
   return numWrongGuesses >= losingFigure.length;
 };
 
