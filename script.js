@@ -93,7 +93,7 @@ var main = function (input) {
 
   // If the user has already guessed the current letter, let them know
   // and don't count it as a wrong guess.
-  if (chosenSecretWordArray.includes(input) && !guessedWordArray.includes(input)) {
+  if (chosenSecretWordArray.includes(input) && guessedWordArray.includes(input)) {
     return `You've guessed ${input} before! <br> ${getDefaultOutput()}`;
   }
 
