@@ -33,7 +33,7 @@
     #output {
       margin: 20px auto;
       padding: 20px;
-      background-color: grey;
+      background-color: gainsboro;
       width: 100%;
     }
   </style>
@@ -42,6 +42,7 @@
 <body>
   <h1 id="header">SWE 101! 🚀</h1>
   <div id="container">
+    <p id="description">Press the submit button to start playing</p>
     <input id="my-input" />
     <button id="my-button">submit</button>
     <p>output:</p>
@@ -63,6 +64,8 @@
       output.innerHTML = result;
 
       input.value = "";
+
+      document.getElementById("description").innerHTML = "";
     });
 
   </script>
