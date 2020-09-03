@@ -23,6 +23,8 @@ var gameMode = '';
 // Key is correctly guessed character
 // value is an array of the indices at the character occurs
 var correctGuessCharIndexPairs = {};
+// Variable to store the user name
+var playerName = '';
 
 /*
 // Definition of the callback function for using in findIndex function for array.
@@ -214,7 +216,8 @@ var playHardMode = function (inputCharGuess) {
 
     correctlyGuessedLetters.push(inputCharGuess);
     bIsExsiting = true;
-  } else{ // if the same character is given as input by player, but more than the number of occurances
+  } else{
+    // if the same character is given as input by player, but more than the number of occurances
     bIsExsiting = false;
   }
   console.log('correctGuessCharIndexPairs:', correctGuessCharIndexPairs);
@@ -256,17 +259,22 @@ var printChooseModeMessage = function () {
   var outputValue = 'Choose the mode of game you would like to play.';
   outputValue += '<br/><br/>Type <b>' + modeEasy + '</b> to select the easy mode of game, '
   + 'in which multiple occurrance of same letter will be filled, once the correct guess is made.';
-  outputValue += '<br/><br/>Type <b>' + modeHard + '</b> to select the hard mode of game, in which the player has to guess each letter.';
+  outputValue += '<br/><br/>Type <b>' + modeHard + '</b> to select the hard mode of game, '
+  + 'in which the player has to guess each letter.';
   return outputValue;
 };
 
 var main = function (input) {
   var myOutputValue = '';
-
   // myOutputValue = playSimpleGame(input);
-
-  if (input.length == 0) {
-    return printChooseModeMessage();
+  if(input.length == 0) {
+    return 'Please enter your Name';
+  }
+  if(playerName.length == 0) {
+    playerName = input;
+    myOutputValue = 'Hi ' + playerName + ', Welcome!! <br/>';
+    myOutputValue += printChooseModeMessage();
+    return myOutputValue;
   }
   // Prompting the player to input the mode of game they want to play
   if(gameMode.length == 0) {
