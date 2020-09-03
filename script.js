@@ -36,6 +36,8 @@ var gameMode = '';
 var correctGuessCharIndexPairs = {};
 // Variable to store the user name
 var playerName = '';
+// Variable to store whether game is over or not
+var gameOver = false;
 
 /*
 // Definition of the callback function for using in findIndex function for array.
@@ -84,6 +86,7 @@ var checkTurnsExceeded = function () {
   if (wrongGuessResult.length >= wrongPattern.length) {
     outputValue = 'You have exceeded the number of limits for guessing. You lost. ';
     outputValue += '<br/>Secret Word is: ' + secretCode.join('');
+    gameOver = true;
   }
   return outputValue;
 };
@@ -116,6 +119,7 @@ var formatGameOutputMessage = function (inputCharGuess, bIsCharFound, existingMe
     if (correctlyGuessedLetters.length == secretCode.length) {
       outputValue += '<br/>You Win!!!. Game completed.<br/>';
       outputValue += '<br/>Secret Word is: ' + secretCode.join('');
+      gameOver = true;
     }
   } else {
   // Appending the wrong pattern to the guessed result
@@ -220,7 +224,8 @@ var playHardMode = function (inputCharGuess) {
   var lastIndex = (!bIsExsiting) ? -1 : currentIndexArray[currentIndexArray.length - 1];
   console.log('Before findNextOccurance searchIndex', lastIndex + 1);
   if(bIsExsiting) {
-    console.log('Before correctGuessCharIndexPairs[inputCharGuess]:', correctGuessCharIndexPairs[inputCharGuess].join());
+    console.log('Before correctGuessCharIndexPairs[inputCharGuess]:',
+      correctGuessCharIndexPairs[inputCharGuess].join());
   }
   lastIndex = findNextOccurance(inputCharGuess, (lastIndex + 1));
   if(lastIndex != -1) {
@@ -290,6 +295,23 @@ var chooseSecretWordForGame = function () {
   secretCode = secretWordList[index];
 };
 
+// Providing message to print option to continue playing
+var printContinuePlayOptions = function (existingMessage) {
+  var outputValue = existingMessage;
+  outputValue += '<br></br> ';
+  outputValue += 'If you would like to continue play with another word, please enter <b>Yes</b> and press Submit';
+  outputValue += '<br></br> ';
+  outputValue += 'If you want to choose another mode, please enter <b>Mode</b> and press Submit';
+  return outputValue;
+};
+
+var clearStoredValues = function () {
+  secretCode = '';
+  correctlyGuessedLetters = [];
+  wrongGuessResult = [];
+  correctGuessCharIndexPairs = {};
+};
+
 var main = function (input) {
   var myOutputValue = '';
   // myOutputValue = playSimpleGame(input);
@@ -302,6 +324,23 @@ var main = function (input) {
     myOutputValue += printChooseModeMessage();
     return myOutputValue;
   }
+  // Check whether user has chosen to continue playing
+  if(gameOver) {
+    if(input == 'Yes') {
+      gameOver = false;
+      clearStoredValues();
+      chooseSecretWordForGame();
+      return 'Start entering your guesses!!';
+    } else if(input == 'Mode') {
+      gameOver = false;
+      gameMode = '';
+      clearStoredValues();
+      return printChooseModeMessage();
+    } else{
+      // continue with the previous game status
+    }
+  }
+
   // Prompting the player to input the mode of game they want to play
   if(gameMode.length == 0) {
     chooseSecretWordForGame();
@@ -315,5 +354,9 @@ var main = function (input) {
   console.log('Secret word chosen: ', secretCode);
   myOutputValue = playGameWithMode(input);
 
+  // If the game is over, provide the option to continue to play
+  if(gameOver) {
+    myOutputValue = printContinuePlayOptions(myOutputValue);
+  }
   return myOutputValue;
 };
