@@ -1,9 +1,10 @@
 // global variables
 var numGuesses = 0;
 var numWrongGuesses = 0;
-// var monster
+var monster = ['(', '凸', 'ಠ', '益', 'ಠ', ')', '凸'];
 var guessesLeft = 7;
 var numCorrectGuesses = 0;
+var numWrongGuesses = 0;
 // hard code secret word
 var word = ['c', 'a', 't'];
 // equate answer array length to word array length
@@ -13,7 +14,6 @@ var answer = Array(word.length).fill('_');
 var main = function (input) {
   var guess = String(input);
   var myOutputValue = '';
-
   // correct guess
   if (word.includes(guess)) {
     // find answer array position, copy letter to answer
@@ -24,14 +24,15 @@ var main = function (input) {
     console.log('answer');
     console.log(answer);
     numCorrectGuesses = numCorrectGuesses + 1;
-    myOutputValue = 'Word: ' + answer + ' Good guess, next letter! Correct guesses: ' + numCorrectGuesses + '/' + word.length + '. Guesses Left: ' + guessesLeft + '/7';
+    myOutputValue = 'Word: ' + answer.join('') + ' Good guess, next letter! Correct guesses: ' + numCorrectGuesses + '/' + word.length + '. Guesses Left: ' + guessesLeft + '/7 <br>' + monster.slice(0, numWrongGuesses).join('');
   } else {
     guessesLeft = guessesLeft - 1;
-    myOutputValue = 'Word: ' + answer + '<br>kwongk kwongkon kwnogk! Your answer is wrong! :< Correct guesses: ' + numCorrectGuesses + '/' + word.length + '. Guesses Left: ' + guessesLeft + '/7';
+    numWrongGuesses = numWrongGuesses + 1;
+    myOutputValue = 'Word: ' + answer.join('') + '<br>kwongk kwongkon kwnogk! Your answer is wrong! :< Correct guesses: ' + numCorrectGuesses + '/' + word.length + '. Guesses Left: ' + guessesLeft + '/7 <br>' + monster.slice(0, numWrongGuesses).join('');
   }
 
   if (guessesLeft == 0) {
-    myOutputValue = 'You lose!';
+    myOutputValue = 'You lose! (凸ಠ益ಠ)凸';
   }
   if (numCorrectGuesses == word.length) {
     console.log(numCorrectGuesses);
