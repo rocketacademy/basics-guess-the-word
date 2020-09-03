@@ -1,10 +1,9 @@
-var word = ['c', 'a', 't'];
+var secretWord = ['c', 'a', 't'];
 var lose = ['(', '凸', 'ಠ', '益', 'ಠ', ')', '凸'];
-var lives = 7
+var displayWord = ['_', '_', '_'];
+var hangMan = [];
+var miss = 0
 var hits = 0
-var cat1 = '_.';
-var cat2 = '_.';
-var cat3 = '_';
 
 var main = function (input) {
   var myOutputValue = '';
@@ -12,40 +11,30 @@ var main = function (input) {
   var badGuessCounter = 0;
 
   while (index < 3) {
-    if (input == word[index]) {
+    if (input == secretWord[index]) {
       hits = hits + 1;
-    } else if (input != word[index]) {
+      displayWord[index] = secretWord[index];
+    } else if (input != secretWord[index]) {
       badGuessCounter = badGuessCounter + 1;
     }
     index = index + 1;
   }
 
   if (badGuessCounter == 3) {
-    lives = lives - 1;
+    hangMan = hangMan + lose[miss];
+    miss = miss + 1;
   }
 
-  if (input == 'c') {
-    cat1 = 'c.';
-  }
-
-  if (input == 'a') {
-    cat2 = 'a.';
-  }
-
-  if (input == 't') {
-    cat3 = 't';
-  }
-
-  console.log(lives);
+  console.log(miss);
   console.log(hits);
 
-  myOutputValue = 'You have ' + hits + ' hits with ' + lives + ' lives left. There are ' + word.length + ' letters in the word ' + cat1 + cat2 + cat3 + '.';
+  myOutputValue = 'The secret word has ' + secretWord.length + ' alphabets. ' + displayWord + '. Your hangman is growing! ' + hangMan;
 
-  if (lives == 0) {
+  if (miss >= 6) {
     myOutputValue = 'You lost!' + myOutputValue;
   }
 
-  if (hits == 3) {
+  if (hits >= 2) {
     myOutputValue = 'You won! ' + myOutputValue;
   }
 
